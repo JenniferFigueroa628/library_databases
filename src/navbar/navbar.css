@@ -1,0 +1,13 @@
+.header {
+    background-color: #c8dbbe;
+    height: 75px;
+    position: relative;
+    width: 100%;
+    }
+    .header .icon-book-saved {
+    height: 39px;
+    left: 576px;
+    position: absolute;
+    top: 20px;
+    width: 46px;
+    }
