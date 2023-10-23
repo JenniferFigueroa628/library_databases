@@ -1,13 +1,63 @@
-.header {
+.navbar {
     background-color: #c8dbbe;
     height: 75px;
     position: relative;
     width: 100%;
-    }
-    .header .icon-book-saved {
+}
+.MenuIcon{
+    width: 37.912px;
+    height: 36.869px;
+    flex-shrink: 0;
+  }
+.navbar .icon-book-saved {
     height: 39px;
     left: 576px;
     position: absolute;
     top: 20px;
     width: 46px;
-    }
+}
+
+.navbar.text-wrapper {
+    color: #fffaf1;
+    font-family: "Lato-Bold", Helvetica;
+    font-size: 32px;
+    font-weight: 700;
+    left: 629px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 19px;
+    width: 181px;
+}
+
+.navbar .icon-user-square {
+    height: 31px;
+    left: 1350px;
+    position: absolute;
+    top: 22px;
+    width: 40px;
+}
+
+.navbar .icon-shopping-cart {
+    height: 35px;
+    left: 1299px;
+    position: absolute;
+    top: 21px;
+    width: 38px;
+}
+
+.navbar .icon-clipboard-text {
+    height: 36px;
+    left: 1251px;
+    position: absolute;
+    top: 19px;
+    width: 37px;
+}
+
+.navbar .icon-menu {
+    height: 37px;
+    left: 34px;
+    position: absolute;
+    top: 19px;
+    width: 38px;
+}
