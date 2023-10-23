@@ -1,0 +1,101 @@
+.container {
+    background-color: #FFFAF1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    font-family: 'Lato', sans-serif;
+    overflow: auto;
+  }
+  
+.navbar {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 75px;
+    background: #C8DBBE;
+    margin-top: 0%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navbar a{
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+.MenuIcon{
+  width: 37.912px;
+  height: 36.869px;
+  flex-shrink: 0; 
+}
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 879px;
+    height: 830px; 
+    border-radius: 25px;
+    background: #C8DBBE;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: white;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 100px;
+    margin-top: 100px;
+  }
+  
+  .form input {
+    width: 468px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    background: #E0EBDA;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+    gap: 2px;
+    position:relative;
+    margin-bottom: 15px;
+    margin-top: 5px;
+    font-size: 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: '800';
+    word-wrap: 'break-word';
+    padding-left: 10px;
+    margin-bottom: auto;
+  }
+  
+  .form button{
+    width: 347px;
+    height: 68px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    background: #9F8772;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: white;
+    font-size: 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: '700';
+    word-wrap: 'break-word';
+    cursor: pointer;
+    padding: 15px 0;
+    margin-top: 20px;
+  }
+
+  .form label{
+    display: block;
+    margin-top: 15px;
+    font-size: 24px;
+    font-weight: '700';
+  }
+  
+
