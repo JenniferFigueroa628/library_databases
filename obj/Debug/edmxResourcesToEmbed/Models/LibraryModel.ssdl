@@ -1,0 +1,685 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LibAppDevModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="audio">
+    <Key>
+      <PropertyRef Name="audio_id" />
+    </Key>
+    <Property Name="audio_id" Type="int" Nullable="false" />
+    <Property Name="audio_type" Type="varchar" MaxLength="32" />
+    <Property Name="audio_title" Type="varchar" MaxLength="50" />
+    <Property Name="audio_author" Type="varchar" MaxLength="50" />
+    <Property Name="audio_publisher" Type="varchar" MaxLength="50" />
+    <Property Name="audio_genre" Type="varchar" MaxLength="50" />
+    <Property Name="audio_length" Type="int" />
+    <Property Name="last_checkout" Type="datetime2" Precision="7" />
+    <Property Name="last_return" Type="datetime2" Precision="7" />
+    <Property Name="last_transaction" Type="int" />
+  </EntityType>
+  <EntityType Name="book">
+    <Key>
+      <PropertyRef Name="book_id" />
+    </Key>
+    <Property Name="book_id" Type="int" Nullable="false" />
+    <Property Name="book_type" Type="varchar" MaxLength="32" />
+    <Property Name="book_title" Type="varchar" MaxLength="50" />
+    <Property Name="book_author" Type="varchar" MaxLength="50" />
+    <Property Name="book_publisher" Type="varchar" MaxLength="50" />
+    <Property Name="book_genre" Type="varchar" MaxLength="50" />
+    <Property Name="book_length" Type="int" />
+    <Property Name="last_checkout" Type="datetime2" Precision="7" />
+    <Property Name="last_return" Type="datetime2" Precision="7" />
+    <Property Name="last_transaction" Type="int" />
+  </EntityType>
+  <EntityType Name="checkout_records">
+    <Key>
+      <PropertyRef Name="transaction_id" />
+    </Key>
+    <Property Name="transaction_id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="object_id" Type="int" Nullable="false" />
+    <Property Name="create_date" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="return_date" Type="datetime2" Precision="7" />
+    <Property Name="due_date" Type="datetime2" Precision="7" />
+    <Property Name="is_late" Type="bit" />
+  </EntityType>
+  <EntityType Name="equipment">
+    <Key>
+      <PropertyRef Name="equip_id" />
+    </Key>
+    <Property Name="equip_id" Type="int" Nullable="false" />
+    <Property Name="equip_type" Type="varchar" MaxLength="32" />
+    <Property Name="equip_title" Type="varchar" MaxLength="50" />
+    <Property Name="equip_director" Type="varchar" MaxLength="50" />
+    <Property Name="equip_genre" Type="varchar" MaxLength="50" />
+    <Property Name="equip_length" Type="int" />
+    <Property Name="last_checkout" Type="datetime2" Precision="7" />
+    <Property Name="last_return" Type="datetime2" Precision="7" />
+    <Property Name="last_transaction" Type="int" />
+  </EntityType>
+  <EntityType Name="fees">
+    <Key>
+      <PropertyRef Name="fee_id" />
+    </Key>
+    <Property Name="fee_id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="transaction_id" Type="int" Nullable="false" />
+    <Property Name="create_date" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="total_fee" Type="decimal" Precision="19" Scale="4" />
+    <Property Name="remaining_fee" Type="decimal" Precision="19" Scale="4" />
+    <Property Name="is_paid" Type="bit" />
+  </EntityType>
+  <EntityType Name="movie">
+    <Key>
+      <PropertyRef Name="movie_id" />
+    </Key>
+    <Property Name="movie_id" Type="int" Nullable="false" />
+    <Property Name="movie_type" Type="varchar" MaxLength="32" />
+    <Property Name="movie_title" Type="varchar" MaxLength="50" />
+    <Property Name="movie_director" Type="varchar" MaxLength="50" />
+    <Property Name="movie_genre" Type="varchar" MaxLength="50" />
+    <Property Name="movie_length" Type="int" />
+    <Property Name="last_checkout" Type="datetime2" Precision="7" />
+    <Property Name="last_return" Type="datetime2" Precision="7" />
+    <Property Name="last_transaction" Type="int" />
+  </EntityType>
+  <EntityType Name="user_role">
+    <Key>
+      <PropertyRef Name="role_id" />
+    </Key>
+    <Property Name="role_id" Type="int" Nullable="false" />
+    <Property Name="role_desc" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_role" Type="int" />
+    <Property Name="username" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="first_name" Type="varchar" MaxLength="30" />
+    <Property Name="last_name" Type="varchar" MaxLength="30" />
+    <Property Name="is_active" Type="bit" />
+  </EntityType>
+  <EntityType Name="waitlist">
+    <Key>
+      <PropertyRef Name="list_id" />
+    </Key>
+    <Property Name="list_id" Type="int" Nullable="false" />
+    <Property Name="list_item_id" Type="int" Nullable="false" />
+    <Property Name="object_id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="create_date" Type="datetime2" Precision="7" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__audio__last_tran__1CBC4616">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="0..1" />
+    <End Role="audio" Type="Self.audio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="audio">
+        <PropertyRef Name="last_transaction" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__book__last_trans__1DB06A4F">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="0..1" />
+    <End Role="book" Type="Self.book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="book">
+        <PropertyRef Name="last_transaction" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__checkout___objec__3B40CD36">
+    <End Role="audio" Type="Self.audio" Multiplicity="1" />
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="audio">
+        <PropertyRef Name="audio_id" />
+      </Principal>
+      <Dependent Role="checkout_records">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__checkout___objec__3C34F16F">
+    <End Role="book" Type="Self.book" Multiplicity="1" />
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="book">
+        <PropertyRef Name="book_id" />
+      </Principal>
+      <Dependent Role="checkout_records">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__checkout___objec__3D2915A8">
+    <End Role="equipment" Type="Self.equipment" Multiplicity="1" />
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="equipment">
+        <PropertyRef Name="equip_id" />
+      </Principal>
+      <Dependent Role="checkout_records">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__checkout___objec__3E1D39E1">
+    <End Role="movie" Type="Self.movie" Multiplicity="1" />
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="movie">
+        <PropertyRef Name="movie_id" />
+      </Principal>
+      <Dependent Role="checkout_records">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__checkout___user___59C55456">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="checkout_records">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__equipment__last___1332DBDC">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="0..1" />
+    <End Role="equipment" Type="Self.equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="equipment">
+        <PropertyRef Name="last_transaction" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__equipment__last___151B244E">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="0..1" />
+    <End Role="equipment" Type="Self.equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="equipment">
+        <PropertyRef Name="last_transaction" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__equipment__last___17036CC0">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="0..1" />
+    <End Role="equipment" Type="Self.equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="equipment">
+        <PropertyRef Name="last_transaction" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__equipment__last___17F790F9">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="0..1" />
+    <End Role="equipment" Type="Self.equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="equipment">
+        <PropertyRef Name="last_transaction" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__fees__transactio__208CD6FA">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="1" />
+    <End Role="fees" Type="Self.fees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="fees">
+        <PropertyRef Name="transaction_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__fees__transactio__25518C17">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="1" />
+    <End Role="fees" Type="Self.fees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="fees">
+        <PropertyRef Name="transaction_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__fees__transactio__2A164134">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="1" />
+    <End Role="fees" Type="Self.fees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="fees">
+        <PropertyRef Name="transaction_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__fees__transactio__31B762FC">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="1" />
+    <End Role="fees" Type="Self.fees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="fees">
+        <PropertyRef Name="transaction_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__fees__user_id__55F4C372">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="fees" Type="Self.fees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="fees">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__fees__user_id__58D1301D">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="fees" Type="Self.fees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="fees">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__fees__user_id__5BAD9CC8">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="fees" Type="Self.fees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="fees">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__fees__user_id__6166761E">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="fees" Type="Self.fees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="fees">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__movie__last_tran__1BC821DD">
+    <End Role="checkout_records" Type="Self.checkout_records" Multiplicity="0..1" />
+    <End Role="movie" Type="Self.movie" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="checkout_records">
+        <PropertyRef Name="transaction_id" />
+      </Principal>
+      <Dependent Role="movie">
+        <PropertyRef Name="last_transaction" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users__user_role__56E8E7AB">
+    <End Role="user_role" Type="Self.user_role" Multiplicity="0..1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user_role">
+        <PropertyRef Name="role_id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="user_role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users__user_role__5AB9788F">
+    <End Role="user_role" Type="Self.user_role" Multiplicity="0..1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user_role">
+        <PropertyRef Name="role_id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="user_role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users__user_role__5CA1C101">
+    <End Role="user_role" Type="Self.user_role" Multiplicity="0..1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user_role">
+        <PropertyRef Name="role_id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="user_role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users__user_role__5D95E53A">
+    <End Role="user_role" Type="Self.user_role" Multiplicity="0..1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user_role">
+        <PropertyRef Name="role_id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="user_role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__object__2BFE89A6">
+    <End Role="book" Type="Self.book" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="book">
+        <PropertyRef Name="book_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__object__2CF2ADDF">
+    <End Role="movie" Type="Self.movie" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="movie">
+        <PropertyRef Name="movie_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__object__2DE6D218">
+    <End Role="audio" Type="Self.audio" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="audio">
+        <PropertyRef Name="audio_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__object__339FAB6E">
+    <End Role="book" Type="Self.book" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="book">
+        <PropertyRef Name="book_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__object__3493CFA7">
+    <End Role="movie" Type="Self.movie" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="movie">
+        <PropertyRef Name="movie_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__object__3587F3E0">
+    <End Role="audio" Type="Self.audio" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="audio">
+        <PropertyRef Name="audio_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__object__367C1819">
+    <End Role="equipment" Type="Self.equipment" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="equipment">
+        <PropertyRef Name="equip_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__user_i__57DD0BE4">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__user_i__5E8A0973">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__user_i__5F7E2DAC">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__waitlist__user_i__607251E5">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="waitlist" Type="Self.waitlist" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="waitlist">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LibAppDevModelStoreContainer">
+    <EntitySet Name="audio" EntityType="Self.audio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="book" EntityType="Self.book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="checkout_records" EntityType="Self.checkout_records" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="equipment" EntityType="Self.equipment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="fees" EntityType="Self.fees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="movie" EntityType="Self.movie" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user_role" EntityType="Self.user_role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="waitlist" EntityType="Self.waitlist" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__audio__last_tran__1CBC4616" Association="Self.FK__audio__last_tran__1CBC4616">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="audio" EntitySet="audio" />
+    </AssociationSet>
+    <AssociationSet Name="FK__book__last_trans__1DB06A4F" Association="Self.FK__book__last_trans__1DB06A4F">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="book" EntitySet="book" />
+    </AssociationSet>
+    <AssociationSet Name="FK__checkout___objec__3B40CD36" Association="Self.FK__checkout___objec__3B40CD36">
+      <End Role="audio" EntitySet="audio" />
+      <End Role="checkout_records" EntitySet="checkout_records" />
+    </AssociationSet>
+    <AssociationSet Name="FK__checkout___objec__3C34F16F" Association="Self.FK__checkout___objec__3C34F16F">
+      <End Role="book" EntitySet="book" />
+      <End Role="checkout_records" EntitySet="checkout_records" />
+    </AssociationSet>
+    <AssociationSet Name="FK__checkout___objec__3D2915A8" Association="Self.FK__checkout___objec__3D2915A8">
+      <End Role="equipment" EntitySet="equipment" />
+      <End Role="checkout_records" EntitySet="checkout_records" />
+    </AssociationSet>
+    <AssociationSet Name="FK__checkout___objec__3E1D39E1" Association="Self.FK__checkout___objec__3E1D39E1">
+      <End Role="movie" EntitySet="movie" />
+      <End Role="checkout_records" EntitySet="checkout_records" />
+    </AssociationSet>
+    <AssociationSet Name="FK__checkout___user___59C55456" Association="Self.FK__checkout___user___59C55456">
+      <End Role="users" EntitySet="users" />
+      <End Role="checkout_records" EntitySet="checkout_records" />
+    </AssociationSet>
+    <AssociationSet Name="FK__equipment__last___1332DBDC" Association="Self.FK__equipment__last___1332DBDC">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="equipment" EntitySet="equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__equipment__last___151B244E" Association="Self.FK__equipment__last___151B244E">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="equipment" EntitySet="equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__equipment__last___17036CC0" Association="Self.FK__equipment__last___17036CC0">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="equipment" EntitySet="equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__equipment__last___17F790F9" Association="Self.FK__equipment__last___17F790F9">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="equipment" EntitySet="equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__fees__transactio__208CD6FA" Association="Self.FK__fees__transactio__208CD6FA">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="fees" EntitySet="fees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__fees__transactio__25518C17" Association="Self.FK__fees__transactio__25518C17">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="fees" EntitySet="fees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__fees__transactio__2A164134" Association="Self.FK__fees__transactio__2A164134">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="fees" EntitySet="fees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__fees__transactio__31B762FC" Association="Self.FK__fees__transactio__31B762FC">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="fees" EntitySet="fees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__fees__user_id__55F4C372" Association="Self.FK__fees__user_id__55F4C372">
+      <End Role="users" EntitySet="users" />
+      <End Role="fees" EntitySet="fees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__fees__user_id__58D1301D" Association="Self.FK__fees__user_id__58D1301D">
+      <End Role="users" EntitySet="users" />
+      <End Role="fees" EntitySet="fees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__fees__user_id__5BAD9CC8" Association="Self.FK__fees__user_id__5BAD9CC8">
+      <End Role="users" EntitySet="users" />
+      <End Role="fees" EntitySet="fees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__fees__user_id__6166761E" Association="Self.FK__fees__user_id__6166761E">
+      <End Role="users" EntitySet="users" />
+      <End Role="fees" EntitySet="fees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__movie__last_tran__1BC821DD" Association="Self.FK__movie__last_tran__1BC821DD">
+      <End Role="checkout_records" EntitySet="checkout_records" />
+      <End Role="movie" EntitySet="movie" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users__user_role__56E8E7AB" Association="Self.FK__users__user_role__56E8E7AB">
+      <End Role="user_role" EntitySet="user_role" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users__user_role__5AB9788F" Association="Self.FK__users__user_role__5AB9788F">
+      <End Role="user_role" EntitySet="user_role" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users__user_role__5CA1C101" Association="Self.FK__users__user_role__5CA1C101">
+      <End Role="user_role" EntitySet="user_role" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users__user_role__5D95E53A" Association="Self.FK__users__user_role__5D95E53A">
+      <End Role="user_role" EntitySet="user_role" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__object__2BFE89A6" Association="Self.FK__waitlist__object__2BFE89A6">
+      <End Role="book" EntitySet="book" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__object__2CF2ADDF" Association="Self.FK__waitlist__object__2CF2ADDF">
+      <End Role="movie" EntitySet="movie" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__object__2DE6D218" Association="Self.FK__waitlist__object__2DE6D218">
+      <End Role="audio" EntitySet="audio" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__object__339FAB6E" Association="Self.FK__waitlist__object__339FAB6E">
+      <End Role="book" EntitySet="book" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__object__3493CFA7" Association="Self.FK__waitlist__object__3493CFA7">
+      <End Role="movie" EntitySet="movie" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__object__3587F3E0" Association="Self.FK__waitlist__object__3587F3E0">
+      <End Role="audio" EntitySet="audio" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__object__367C1819" Association="Self.FK__waitlist__object__367C1819">
+      <End Role="equipment" EntitySet="equipment" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__user_i__57DD0BE4" Association="Self.FK__waitlist__user_i__57DD0BE4">
+      <End Role="users" EntitySet="users" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__user_i__5E8A0973" Association="Self.FK__waitlist__user_i__5E8A0973">
+      <End Role="users" EntitySet="users" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__user_i__5F7E2DAC" Association="Self.FK__waitlist__user_i__5F7E2DAC">
+      <End Role="users" EntitySet="users" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+    <AssociationSet Name="FK__waitlist__user_i__607251E5" Association="Self.FK__waitlist__user_i__607251E5">
+      <End Role="users" EntitySet="users" />
+      <End Role="waitlist" EntitySet="waitlist" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
